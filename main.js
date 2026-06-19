@@ -16,4 +16,16 @@ tree1.prettyPrint();
 tree1.insert(10);
 tree1.prettyPrint();
 
+let result = 0;
 
+function total(...array) {
+
+    for (let arr of array) {
+        result += arr;
+    }
+
+    return result;
+}
+
+tree1.levelOrderForEach(total);
+console.log(result);
