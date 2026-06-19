@@ -1,129 +1,147 @@
-import Tree from './tree'; // Adjust path if needed
+import Tree from './tree.js'; // Adjust paths if your file is located elsewhere
 
-describe('Binary Search Tree (Odin Project)', () => {
-  let initialArray;
-  let tree;
+describe('Binary Search Tree - Full Odin Project Specifications', () => {
+    let testArray;
+    let tree;
 
-  beforeEach(() => {
-    initialArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-    tree = new Tree(initialArray);
-  });
-
-  // Helper function to assert a method exists before testing it
-  const assertMethodExists = (methodName) => {
-    if (typeof tree[methodName] !== 'function') {
-      throw new Error(`Method "${methodName}()" is not yet implemented on your Tree class.`);
-    }
-  };
-
-  test('should build a tree structure and remove duplicates via constructor', () => {
-    // This validates your #buildTree logic
-    expect(tree.root).not.toBeNull();
-    expect(tree.root.value).toBe(8); // Middle element of the unique sorted array
-  });
-
-  test('includes() accurately finds existing values and rejects missing values', () => {
-    // This validates your existing includes logic
-    expect(tree.includes(8)).toBe(true);   // Root
-    expect(tree.includes(1)).toBe(true);   // Min leaf
-    expect(tree.includes(6345)).toBe(true);// Max leaf
-    
-    expect(tree.includes(999)).toBe(false); // Non-existent number
-    expect(tree.includes(6)).toBe(false);   // Not added yet
-  });
-
-  test('insert() adds a leaf correctly and ignores duplicates', () => {
-    tree.insert(6);
-    expect(tree.includes(6)).toBe(true);
-
-    tree.insert(6);
-    expect(tree.includes(6)).toBe(true);
-  });
-
-  test('tree should be initially balanced', () => {
-    assertMethodExists('isBalanced');
-    expect(tree.isBalanced()).toBe(true); 
-  });
-
-  test('deleteItem() handles leaf node, single child, and two children scenarios', () => {
-    assertMethodExists('deleteItem');
-
-    // Case 1: Delete a leaf node
-    tree.deleteItem(1);
-    expect(tree.includes(1)).toBe(false);
-
-    // Case 2: Delete a node with one child
-    tree.insert(2); 
-    tree.deleteItem(3);
-    expect(tree.includes(3)).toBe(false);
-    expect(tree.includes(2)).toBe(true);
-
-    // Case 3: Delete a node with two children
-    const originalRootVal = tree.root.value;
-    tree.deleteItem(originalRootVal);
-    expect(tree.includes(originalRootVal)).toBe(false);
-  });
-
-  test('find() returns the correct node or null if not found', () => {
-    assertMethodExists('find');
-
-    const foundNode = tree.find(23);
-    expect(foundNode).not.toBeNull();
-    expect(foundNode.value).toBe(23);
-
-    const notFound = tree.find(999);
-    expect(notFound).toBeNull();
-  });
-
-  describe('Traversals (Callback scenarios)', () => {
-    test('levelOrder() traverses breadth-first', () => {
-      assertMethodExists('levelOrder');
-
-      const results = [];
-      tree.levelOrder((node) => results.push(node.value));
-      expect(results[0]).toBe(tree.root.value);
+    beforeEach(() => {
+        // A simple, un-duplicated tree structure
+        //        4
+        //       / \
+        //      2   6
+        //     / \ / \
+        //    1  3 5  7
+        testArray = [4, 2, 6, 1, 3, 5, 7];
+        tree = new Tree(testArray);
     });
 
-    test('inOrder(), preOrder(), and postOrder() traverse depth-first correctly', () => {
-      assertMethodExists('inOrder');
-      assertMethodExists('preOrder');
-      assertMethodExists('postOrder');
+    describe('Tree Initialization & Balancing', () => {
+        test('should remove duplicates and sort array during initialization', () => {
+            const duplicateTree = new Tree([3, 1, 2, 3, 2, 1]);
+            expect(duplicateTree.root.value).toBe(2);
+            expect(duplicateTree.root.left.value).toBe(1);
+            expect(duplicateTree.root.right.value).toBe(3);
+        });
 
-      const inOrderArr = [];
-      const preOrderArr = [];
-
-      tree.inOrder((node) => inOrderArr.push(node.value));
-      tree.preOrder((node) => preOrderArr.push(node.value));
-
-      expect(inOrderArr).toEqual([1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]);
-      expect(preOrderArr[0]).toBe(tree.root.value);
+        test('should create a balanced tree structure from an array', () => {
+            expect(tree.root.value).toBe(4);
+            expect(tree.root.left.value).toBe(2);
+            expect(tree.root.right.value).toBe(6);
+        });
     });
-  });
 
-  test('height() calculates edges from node to deepest leaf', () => {
-    assertMethodExists('height');
+    describe('includes(value)', () => {
+        test('should return true if a value is inside the tree', () => {
+            expect(tree.includes(4)).toBe(true);
+            expect(tree.includes(1)).toBe(true);
+        });
 
-    const rootHeight = tree.height(tree.root);
-    expect(rootHeight).toBeGreaterThanOrEqual(0);
-  });
+        test('should return false if a value is not in the tree', () => {
+            expect(tree.includes(100)).toBe(false);
+        });
+    });
 
-  test('depth() calculates edges from root to target node', () => {
-    assertMethodExists('depth');
+    describe('insert(value)', () => {
+        test('should successfully insert a brand new value into the correct branch', () => {
+            tree.insert(8);
+            expect(tree.includes(8)).toBe(true);
+            expect(tree.root.right.right.right.value).toBe(8);
+        });
 
-    const rootDepth = tree.depth(tree.root);
-    expect(rootDepth).toBe(0);
-  });
+        test('should do absolutely nothing if inserting a value that already exists', () => {
+            tree.insert(4);
+            expect(tree.root.left.value).toBe(2);
+            expect(tree.root.right.value).toBe(6);
+        });
+    });
 
-  test('isBalanced() and rebalance() work sequentially', () => {
-    assertMethodExists('isBalanced');
-    assertMethodExists('rebalance');
+    describe('deleteItem(value)', () => {
+        test('should remove a leaf node', () => {
+            tree.deleteItem(1);
+            expect(tree.includes(1)).toBe(false);
+            expect(tree.root.left.left).toBeNull();
+        });
 
-    tree.insert(7000);
-    tree.insert(8000);
-    tree.insert(9000);
+        test('should remove a node with a single child branch', () => {
+            tree.deleteItem(1); 
+            tree.deleteItem(2);
+            expect(tree.includes(2)).toBe(false);
+            expect(tree.root.left.value).toBe(3);
+        });
 
-    expect(tree.isBalanced()).toBe(false);
-    tree.rebalance();
-    expect(tree.isBalanced()).toBe(true);
-  });
+        test('should remove a complex node holding two children subtrees', () => {
+            tree.deleteItem(2);
+            expect(tree.includes(2)).toBe(false);
+            expect(tree.root.left.value).toBe(3);
+        });
+    });
+
+    describe('Traversals with Callbacks', () => {
+        test('levelOrderForEach should execute callback row by row', () => {
+            const values = [];
+            tree.levelOrderForEach((val) => values.push(val));
+            expect(values).toEqual([4, 2, 6, 1, 3, 5, 7]);
+        });
+
+        test('inOrderForEach should execute callback in sorted order', () => {
+            const values = [];
+            tree.inOrderForEach((val) => values.push(val));
+            expect(values).toEqual([1, 2, 3, 4, 5, 6, 7]);
+        });
+
+        test('preOrderForEach should execute callback in Root -> Left -> Right order', () => {
+            const values = [];
+            tree.preOrderForEach((val) => values.push(val));
+            expect(values).toEqual([4, 2, 1, 3, 6, 5, 7]);
+        });
+
+        test('postOrderForEach should execute callback in Left -> Right -> Root order', () => {
+            const values = [];
+            tree.postOrderForEach((val) => values.push(val));
+            expect(values).toEqual([1, 3, 2, 5, 7, 6, 4]);
+        });
+
+        test('traversals should throw errors if missing a callback', () => {
+            expect(() => tree.preOrderForEach()).toThrow('a call back is required');
+            expect(() => tree.postOrderForEach()).toThrow('a call back is required');
+        });
+    });
+
+    describe('Tree Properties: height() and depth()', () => {
+        test('height() should return the longest path down to a leaf from a node', () => {
+            // Note: If your height setup treats a single leaf node as 0, the root height is 2.
+            // If it treats a leaf as 1, the root height is 3. Adjust the expectation if needed!
+            expect(tree.height(tree.root)).toBe(2); 
+            expect(tree.height(tree.root.left.left)).toBe(0); // Node 1 is a leaf
+        });
+
+        test('depth() should return the distance from the root to the given node', () => {
+            expect(tree.depth(tree.root)).toBe(0);
+            expect(tree.depth(tree.root.left)).toBe(1); // Node 2 is 1 step down
+            expect(tree.depth(tree.root.left.left)).toBe(2); // Node 1 is 2 steps down
+        });
+    });
+
+    describe('Tree Balancing: isBalanced() and rebalance()', () => {
+        test('isBalanced() should return true for a perfectly built balanced tree', () => {
+            expect(tree.isBalanced()).toBe(true);
+        });
+
+        test('isBalanced() should return false if the tree gets severely warped', () => {
+            tree.insert(8);
+            tree.insert(9);
+            tree.insert(10); // Extends the right branch significantly
+            expect(tree.isBalanced()).toBe(false);
+        });
+
+        test('rebalance() should restore balance to an uneven tree structure', () => {
+            tree.insert(8);
+            tree.insert(9);
+            tree.insert(10);
+            expect(tree.isBalanced()).toBe(false);
+
+            tree.rebalance();
+            expect(tree.isBalanced()).toBe(true);
+        });
+    });
 });

@@ -27,5 +27,16 @@ function total(...array) {
     return result;
 }
 
+let arrayResult = []
+
+function addToArray(value) {
+    arrayResult.push(value);
+}
+
 tree1.levelOrderForEach(total);
 console.log(result);
+
+// tree1.inOrderForEach(addToArray);
+// tree1.preOrderForEach(addToArray);
+tree1.postOrderForEach(addToArray);
+console.log(arrayResult);
