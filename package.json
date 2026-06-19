@@ -1,0 +1,27 @@
+{
+  "name": "top---project-binary-search-trees",
+  "version": "1.0.0",
+  "description": "https://www.theodinproject.com/lessons/javascript-binary-search-trees",
+  "main": "tree.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AleixMJ/TOP---Project-Binary-search-trees.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AleixMJ/TOP---Project-Binary-search-trees/issues"
+  },
+  "homepage": "https://github.com/AleixMJ/TOP---Project-Binary-search-trees#readme",
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "babel-jest": "^30.4.1",
+    "jest": "^30.4.2"
+  }
+}
