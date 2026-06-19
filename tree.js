@@ -61,6 +61,34 @@ class Tree {
             return this.includes(value, node.left);
         }
     }
+
+    insert(value, node = this.root) {
+        
+        if (this.root === null) {
+                this.root = new Node(value);
+                return;
+        }
+        
+        
+        if (node.value === value)  return;
+        
+
+        if (value > node.value) {
+            if (node.right === null) {
+                node.right = new Node(value);
+                return;
+            }
+            
+            return this.insert(value, node.right);
+
+        } else {
+            if (node.left === null) {
+                node.left = new Node(value);
+                return;
+            }
+            return this.insert(value, node.left);
+        }
+    }
 }    
         
 export default Tree;

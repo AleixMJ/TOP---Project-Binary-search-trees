@@ -12,9 +12,8 @@ const largeArray = [
 
 const tree1 = new Tree(array1, 0, array1.length - 1);
 const tree2 = new Tree(largeArray, 0, array1.length - 1);
-
 tree1.prettyPrint();
-tree2.prettyPrint();
+tree1.insert(10);
+tree1.prettyPrint();
 
-console.log(tree1.includes(9));
-console.log(tree1.includes(98));
+
