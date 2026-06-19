@@ -89,6 +89,47 @@ class Tree {
             return this.insert(value, node.left);
         }
     }
+
+    #getMinValueNode(node) {
+        let current = node;
+
+        while (current.left != null) {
+            current = current.left;
+        }
+        return current;
+    }
+
+    deleteItem(value, node = this.root) {
+
+        if (node === null) return null;
+
+        if (value > node.value) {
+            node.right = this.deleteItem(value, node.right);
+            return node;
+        } else if (value < node.value) {
+            node.left = this.deleteItem(value, node.left);
+            return node;
+        }
+
+        else {
+            if (node.left === null) return node.right;
+            if (node.right === null) return node.left;
+
+            else {
+                const replacement = this.#getMinValueNode(node.right);
+                node.value = replacement.value;
+                node.right = this.deleteItem(replacement.value, node.right);
+
+                return node;
+
+            }
+        }
+
+
+
+    }
+   
+    
 }    
         
 export default Tree;
