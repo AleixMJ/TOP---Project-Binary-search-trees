@@ -34,9 +34,18 @@ class Tree {
         
         return node;
     }
-        
-        
 
-}
+    prettyPrint() {
+        this.#printNode(this.root);
+    }
 
+    #printNode(node, prefix = '', isLeft = true) {
+        if (node === null || node === undefined) return;
+
+        this.#printNode(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
+        this.#printNode(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+}    
+        
 export default Tree;
