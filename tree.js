@@ -240,8 +240,19 @@ class Tree {
         } else if (value < node.value) {
             return this.depth(value, node.left, currentCount + 1);
         }
-    }     
+    }
     
+    isBalanced(node = this.root) {
+
+        if (node == null) return true;
+
+        const leftHeight = node.left ? this.height(node.left.value) : -1;
+        const rightHeight = node.right ? this.height(node.right.value) : -1;
+
+        if ( Math.abs(leftHeight - rightHeight) > 1) return false;
+        
+        return this.isBalanced(node.left) && this.isBalanced(node.right);
+    }
 }    
         
 export default Tree;
