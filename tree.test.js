@@ -107,18 +107,18 @@ describe('Binary Search Tree - Full Odin Project Specifications', () => {
         });
     });
 
-    describe('Tree Properties: height() and depth()', () => {
+describe('Tree Properties: height() and depth()', () => {
         test('height() should return the longest path down to a leaf from a node', () => {
-            // Note: If your height setup treats a single leaf node as 0, the root height is 2.
-            // If it treats a leaf as 1, the root height is 3. Adjust the expectation if needed!
-            expect(tree.height(tree.root)).toBe(2); 
-            expect(tree.height(tree.root.left.left)).toBe(0); // Node 1 is a leaf
+            // PASS THE VALUES (NUMBERS) HERE:
+            expect(tree.height(4)).toBe(2);                  // 4 is the root value
+            expect(tree.height(1)).toBe(0);                  // 1 is a leaf node value
+            expect(tree.height(999)).toBeUndefined();        // Missing value returns undefined
         });
 
         test('depth() should return the distance from the root to the given node', () => {
             expect(tree.depth(tree.root)).toBe(0);
-            expect(tree.depth(tree.root.left)).toBe(1); // Node 2 is 1 step down
-            expect(tree.depth(tree.root.left.left)).toBe(2); // Node 1 is 2 steps down
+            expect(tree.depth(tree.root.left)).toBe(1); 
+            expect(tree.depth(tree.root.left.left)).toBe(2); 
         });
     });
 

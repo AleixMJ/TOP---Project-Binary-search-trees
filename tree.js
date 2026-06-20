@@ -189,6 +189,43 @@ class Tree {
         this.postOrderForEach(callback, node.right);
         callback(node.value);
     }
+
+    #find(value, node = this.root) {
+
+        if (node === null ) return null;
+
+        if (node.value === value) {
+            return node
+        }
+
+        if (value > node.value) {
+            return this.#find(value, node.right);
+        } else if (value < node.value) {
+            return this.#find(value, node.left);
+        }
+    }
+
+    height(value, height = 0) {
+
+        const targetNode = this.#find(value)
+        if (targetNode === null) {
+            return undefined
+        }
+
+        return this.#calculateHeight(targetNode);
+
+    }
+
+    #calculateHeight(node, currentCount = 0) {
+
+        if (node == null) return -1;
+
+        const LeftHeight = this.#calculateHeight(node.left);
+        const RightHeight = this.#calculateHeight(node.right);
+
+        return Math.max(LeftHeight, RightHeight) + 1;
+
+    }
 }    
         
 export default Tree;
