@@ -226,6 +226,22 @@ class Tree {
         return Math.max(LeftHeight, RightHeight) + 1;
 
     }
+
+    depth(value, node = this.root, currentCount = 0) {
+
+        if (node == null ) return undefined;
+
+        if (node.value === value) {
+            return currentCount;
+        }
+
+        if (value > node.value) {
+            return this.depth(value, node.right, currentCount + 1);
+        } else if (value < node.value) {
+            return this.depth(value, node.left, currentCount + 1);
+        }
+    }     
+    
 }    
         
 export default Tree;

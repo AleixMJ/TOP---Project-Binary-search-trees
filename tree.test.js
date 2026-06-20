@@ -115,10 +115,12 @@ describe('Tree Properties: height() and depth()', () => {
             expect(tree.height(999)).toBeUndefined();        // Missing value returns undefined
         });
 
-        test('depth() should return the distance from the root to the given node', () => {
-            expect(tree.depth(tree.root)).toBe(0);
-            expect(tree.depth(tree.root.left)).toBe(1); 
-            expect(tree.depth(tree.root.left.left)).toBe(2); 
+test('depth() should return the distance from the root to the given node', () => {
+            // PASS THE VALUES (NUMBERS) HERE:
+            expect(tree.depth(4)).toBe(0);          // Root node has a depth of 0
+            expect(tree.depth(2)).toBe(1);          // Node 2 is 1 step down from root
+            expect(tree.depth(1)).toBe(2);          // Node 1 is 2 steps down from root
+            expect(tree.depth(999)).toBeUndefined(); // Missing value returns undefined
         });
     });
 
