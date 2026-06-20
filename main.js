@@ -1,42 +1,55 @@
 import Tree from "./tree.js";
 
-const array1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const randomArray = [15, 48, 2, 76, 39, 91, 64, 22, 53, 8, 87, 30, 71, 44, 99];
 
-const largeArray = [
-    534, 12, 892, 45, 112, 76, 345, 901, 23, 654,
-    88, 432, 11, 765, 99, 213, 54, 876, 321, 90,
-    456, 73, 812, 65, 112, 883, 34, 521, 995, 142,
-    632, 77, 892, 5, 290, 411, 618, 934, 22, 705,
-    500, 12, 843, 66, 199, 385, 712, 944, 54, 603
-];
+const tree1 = new Tree(randomArray);
 
-const tree1 = new Tree(array1, 0, array1.length - 1);
-const tree2 = new Tree(largeArray, 0, array1.length - 1);
-tree1.prettyPrint();
-tree1.insert(10);
+
+
+console.log(`Is the tree balanced? ${tree1.isBalanced()}`);
 tree1.prettyPrint();
 
-let result = 0;
+let levelArray = [];
+tree1.levelOrderForEach((value) => levelArray.push(value));
+console.log(`level Array: ${levelArray}`);
 
-function total(...array) {
+let preArray = [];
+tree1.preOrderForEach((value) => preArray.push(value));
+console.log(`pre Array: ${preArray}`)
 
-    for (let arr of array) {
-        result += arr;
-    }
+let postArray = [];
+tree1.postOrderForEach((value) => postArray.push(value));
+console.log(`post Array: ${postArray}`);
 
-    return result;
-}
+let inOrderArray = []
+tree1.inOrderForEach((value) => inOrderArray.push(value));
+console.log(`in Order Array: ${inOrderArray}`);
 
-let arrayResult = []
 
-function addToArray(value) {
-    arrayResult.push(value);
-}
+tree1.insert(152);
+tree1.insert(382);
+tree1.insert(1382);
+tree1.insert(5362);
+console.log("TREE INSERTIONS COMPLETED");
+tree1.prettyPrint();
+console.log(`Is the tree balanced? ${tree1.isBalanced()}`);
+tree1.rebalance();
+console.log("TREE REBALANCED");
+tree1.prettyPrint();
+console.log(`Is the tree balanced? ${tree1.isBalanced()}`);
 
-tree1.levelOrderForEach(total);
-console.log(result);
+levelArray = [];
+tree1.levelOrderForEach((value) => levelArray.push(value));
+console.log(`level Array: ${levelArray}`);
 
-// tree1.inOrderForEach(addToArray);
-// tree1.preOrderForEach(addToArray);
-tree1.postOrderForEach(addToArray);
-console.log(arrayResult);
+preArray = [];
+tree1.preOrderForEach((value) => preArray.push(value));
+console.log(`pre Array: ${preArray}`)
+
+postArray = [];
+tree1.postOrderForEach((value) => postArray.push(value));
+console.log(`post Array: ${postArray}`);
+
+inOrderArray = []
+tree1.inOrderForEach((value) => inOrderArray.push(value));
+console.log(`in Order Array: ${inOrderArray}`);
